@@ -37,12 +37,23 @@
                     appendLog(item);
                 };
                 conn.onmessage = function (evt) {
-                    var messages = evt.data.split('\n');
-                    for (var i = 0; i < messages.length; i++) {
-                        var item = document.createElement("div");
-                        item.innerText = messages[i];
-                        appendLog(item);
-                    }
+                    // var messages = evt.data.split('\n');
+                    var messages = JSON.parse(evt.data);
+                    console.log(messages);
+                    var key = messages.key;
+                    var val = messages.value.trim();
+                    val = (val === "") ? "No links" : val;
+
+                    var item = document.createElement("div");
+                    var visited = document.createElement("div");
+                    visited.setAttribute("class", "visited");
+                    visited.innerText = key;
+                    var links = document.createElement("div");
+                    links.setAttribute("class", "links");
+                    links.innerText = val;
+                    item.appendChild(visited);
+                    item.appendChild(links);
+                    appendLog(item);
                 };
             } else {
                 var item = document.createElement("div");
@@ -63,6 +74,16 @@
             width: 100%;
             height: 100%;
             background: gray;
+        }
+
+        .visited {
+            width: 100%;
+            background-color: aqua;
+        }
+
+        .links {
+            width: 100%;
+            background-color: beige;
         }
 
         #log {
